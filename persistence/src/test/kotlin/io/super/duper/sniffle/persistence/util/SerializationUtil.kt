@@ -1,4 +1,4 @@
-package io.`super`.duper.sniffle.persistence.impl
+package io.`super`.duper.sniffle.persistence.util
 
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream

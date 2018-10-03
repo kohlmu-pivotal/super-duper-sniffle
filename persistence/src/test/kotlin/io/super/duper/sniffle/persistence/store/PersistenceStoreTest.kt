@@ -1,6 +1,7 @@
-package io.`super`.duper.sniffle.persistence.impl
+package io.`super`.duper.sniffle.persistence.store
 
 import io.`super`.duper.sniffle.persistence.domain.PersistenceStoreEntry
+import io.`super`.duper.sniffle.persistence.util.SerializationUtil
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach

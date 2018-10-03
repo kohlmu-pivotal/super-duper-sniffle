@@ -1,4 +1,4 @@
-package io.`super`.duper.sniffle.persistence.impl
+package io.`super`.duper.sniffle.persistence.store
 
 import java.io.File
 import java.io.RandomAccessFile

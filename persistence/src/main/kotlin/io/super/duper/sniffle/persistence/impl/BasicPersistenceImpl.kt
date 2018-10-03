@@ -2,6 +2,7 @@ package io.`super`.duper.sniffle.persistence.impl
 
 import io.`super`.duper.sniffle.persistence.PersistenceService
 import io.`super`.duper.sniffle.persistence.domain.PersistenceStoreEntry
+import io.`super`.duper.sniffle.persistence.store.PersistenceStore
 import io.`super`.duper.sniffle.serialization.SerializationService
 
 class BasicPersistenceImpl(private val path: String, private val name: String = "defaultFile.snf",

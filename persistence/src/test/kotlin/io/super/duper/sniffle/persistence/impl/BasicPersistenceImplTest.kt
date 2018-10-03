@@ -1,5 +1,7 @@
 package io.`super`.duper.sniffle.persistence.impl
 
+import io.`super`.duper.sniffle.persistence.store.PersistenceStore
+import io.`super`.duper.sniffle.persistence.util.SerializationUtil
 import io.`super`.duper.sniffle.serialization.SerializationService
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
