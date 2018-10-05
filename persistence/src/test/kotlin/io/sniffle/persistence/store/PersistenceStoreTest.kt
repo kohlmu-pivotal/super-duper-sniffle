@@ -1,7 +1,7 @@
 package io.sniffle.persistence.store
 
 import io.sniffle.persistence.domain.PersistenceStoreEntry
-import io.sniffle.persistence.util.SerializationUtil
+import io.sniffle.persistence.util.serializeObject
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -52,7 +52,7 @@ class PersistenceStoreTest {
 
     private fun createPersistentStoreWithOneEntry(): Pair<PersistenceStore, ByteArray> {
         val persistenceStore = PersistenceStore("/tmp", "someFile", 8L)
-        val expectedByteArray = SerializationUtil.serializeObject(PersistenceStoreEntry("This is a key".toByteArray(), "This is a value".toByteArray()))
+        val expectedByteArray = serializeObject(PersistenceStoreEntry("This is a key".toByteArray(), "This is a value".toByteArray()))
         val (_, length) = persistenceStore.write(expectedByteArray)
         assertEquals(expectedByteArray.size, length)
         return Pair(persistenceStore, expectedByteArray)

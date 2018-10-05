@@ -4,19 +4,14 @@ import java.io.Serializable
 
 data class PersistenceStoreEntry(val key: ByteArray, val value: ByteArray) : Serializable {
     override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-
         other as PersistenceStoreEntry
-
-        if (!key.contentEquals(other.key)) return false
-        if (!value.contentEquals(other.value)) return false
-
-        return true
+        return when {
+            this === other -> true
+            !key.contentEquals(other.key) -> false
+            !value.contentEquals(other.value) -> false
+            else -> true
+        }
     }
 
-    override fun hashCode(): Int {
-        var result = key.contentHashCode()
-        result = 31 * result + value.contentHashCode()
-        return result
-    }
+    override fun hashCode(): Int = 31 * key.contentHashCode() + value.contentHashCode()
 }

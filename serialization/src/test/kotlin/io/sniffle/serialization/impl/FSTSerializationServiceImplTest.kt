@@ -48,7 +48,8 @@ class FSTSerializationServiceImplTest {
         TWO
     }
 
-    private data class User(val name: String = "First", val surname: String = "Last", val address: Address = Address("line1", "line2", "line3", "City", 12345, "IcePark")) : Serializable
+    private data class User(val name: String = "First", val surname: String = "Last",
+                            val address: Address = Address("line1", "line2", "line3", "City", 12345, "IcePark")) : Serializable
     private data class Address(val line1: String, val line2: String, val line3: String, val city: String, val postCode: Int, val country: String) : Serializable
 }
 
