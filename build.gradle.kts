@@ -1,10 +1,10 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-group = "io.super.duper.sniffle"
+group = "io.sniffle"
 version = "1.0-SNAPSHOT"
 
 plugins {
-    kotlin("jvm") version "1.2.71"
+    kotlin("jvm") version "1.3.0-rc-146"
     idea
 }
 
@@ -14,6 +14,11 @@ allprojects {
         maven(url = "http://dl.bintray.com/kotlin/kotlin-eap")
         maven(url = "https://plugins.gradle.org/m2/")
         maven(url = "https://kotlin.bintray.com/kotlinx")
+        maven(url = "https://bintray.com/kotlin/kotlin-eap")
+    }
+    tasks.withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.languageVersion = "1.3"
     }
 }
 
@@ -24,5 +29,5 @@ dependencies {
 
 tasks.withType<KotlinCompile> {
     kotlinOptions.jvmTarget = "1.8"
-    kotlinOptions.languageVersion = "1.2"
+    kotlinOptions.languageVersion = "1.3"
 }

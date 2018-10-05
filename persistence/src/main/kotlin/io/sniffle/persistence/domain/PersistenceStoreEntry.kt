@@ -1,4 +1,4 @@
-package io.`super`.duper.sniffle.persistence.domain
+package io.sniffle.persistence.domain
 
 import java.io.Serializable
 

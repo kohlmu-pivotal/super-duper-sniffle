@@ -6,12 +6,6 @@ plugins {
     idea
 }
 
-kotlin {
-    experimental {
-        coroutines = Coroutines.ENABLE
-    }
-}
-
 dependencies {
     compile(kotlin("stdlib-jdk8"))
     compile(kotlin("reflect"))

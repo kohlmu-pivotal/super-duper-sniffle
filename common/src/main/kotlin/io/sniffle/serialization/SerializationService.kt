@@ -1,4 +1,4 @@
-package io.`super`.duper.sniffle.serialization
+package io.sniffle.serialization
 
 interface SerializationService {
     fun serialize(sourceObject: Any): ByteArray

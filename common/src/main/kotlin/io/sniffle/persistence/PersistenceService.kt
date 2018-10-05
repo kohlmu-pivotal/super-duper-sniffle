@@ -1,4 +1,4 @@
-package io.`super`.duper.sniffle.persistence
+package io.sniffle.persistence
 
 interface PersistenceService {
     fun read(key: Any): ByteArray

@@ -1,21 +1,19 @@
-package io.`super`.duper.sniffle.persistence.store
+package io.sniffle.persistence.store
 
 import java.io.File
 import java.io.RandomAccessFile
 
 class PersistenceStore(private val path: String, private val name: String,
-                       private val preAllocateSizeInMB: Long, private val lockFile: File = createLockFile(path)) {
+                       private val fileSizeInMB: Long, private val lockFile: File = createLockFile(path)) {
 
     private val randomAccessFile: RandomAccessFile
 
-    var length: Long
+    val length: Long
         get() = randomAccessFile.length()
     private var endOfFilePointer: Long = 0
 
     init {
-        randomAccessFile = loadOrCreateFile(path, name, preAllocateSizeInMB)
-        randomAccessFile.channel
-        length = randomAccessFile.length()
+        randomAccessFile = loadOrCreateFile(path, name, fileSizeInMB)
         seekEndOfFilePointer(randomAccessFile)
     }
 

@@ -1,12 +1,12 @@
-package io.`super`.duper.sniffle.persistence.impl
+package io.sniffle.persistence.impl
 
-import io.`super`.duper.sniffle.persistence.store.PersistenceStore
-import io.`super`.duper.sniffle.persistence.util.SerializationUtil
-import io.`super`.duper.sniffle.serialization.SerializationService
 import io.mockk.every
 import io.mockk.impl.annotations.MockK
 import io.mockk.junit5.MockKExtension
 import io.mockk.slot
+import io.sniffle.persistence.store.PersistenceStore
+import io.sniffle.persistence.util.SerializationUtil
+import io.sniffle.serialization.SerializationService
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
