@@ -8,7 +8,7 @@ plugins {
 dependencies {
     compile(kotlin("stdlib-jdk8"))
     compile(kotlin("reflect"))
-    api(project(":common"))
+    api(project(":common-api"))
 
     compile("de.ruedigermoeller:fst:2.57")
 

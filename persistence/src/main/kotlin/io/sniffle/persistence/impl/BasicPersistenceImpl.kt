@@ -4,6 +4,7 @@ import io.sniffle.persistence.PersistenceService
 import io.sniffle.persistence.domain.PersistenceStoreEntry
 import io.sniffle.persistence.store.PersistenceStore
 import io.sniffle.serialization.SerializationService
+import io.vavr.control.Try
 
 class BasicPersistenceImpl(private val path: String, private val name: String = "defaultFile.snf",
                            private val sizeInMB: Long = 1024, private val serializationService: SerializationService,
@@ -35,7 +36,7 @@ class BasicPersistenceImpl(private val path: String, private val name: String = 
     override fun read(key: Any): ByteArray {
         val (offset, length) = getPairForKey(key)
         return if (length > 0) {
-            persistenceStore.read(offset, length)
+            Try.of { persistenceStore.read(offset, length) }.get()
         } else {
             fail("No entry exists for key \"$key\"")
         }
@@ -49,12 +50,14 @@ class BasicPersistenceImpl(private val path: String, private val name: String = 
 
     private fun getPairForKey(key: Any): Pair<Long, Int> = keyIndexMap[key] ?: Pair(-1L, 0)
 
-    override fun write(key: Any, value: ByteArray) {
+    override fun write(key: Any, value: ByteArray): Int {
         val binaryKey = serializationService.serialize(key)
         val binaryEntry = serializationService.serialize(PersistenceStoreEntry(binaryKey, value))
-        keyIndexMap[key] = persistenceStore.write(binaryEntry)
+        val writeResult = persistenceStore.write(binaryEntry)
+        keyIndexMap[key] = writeResult
+        return writeResult.second
     }
 }
 
 internal fun loadOrCreateFileStore(path: String, name: String, sizeInMB: Long): PersistenceStore =
-    PersistenceStore(path, name, sizeInMB)
+        PersistenceStore(path, name, sizeInMB)

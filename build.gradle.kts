@@ -15,6 +15,7 @@ allprojects {
         maven(url = "https://plugins.gradle.org/m2/")
         maven(url = "https://kotlin.bintray.com/kotlinx")
         maven(url = "https://bintray.com/kotlin/kotlin-eap")
+        maven(url = "https://plugins.gradle.org/m2/")
     }
     tasks.withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "1.8"
@@ -25,6 +26,7 @@ allprojects {
 dependencies {
     compile(kotlin("stdlib-jdk8"))
     compile(kotlin("reflect"))
+    compile("io.vavr:vavr-kotlin:0.9.2")
 }
 
 tasks.withType<KotlinCompile> {

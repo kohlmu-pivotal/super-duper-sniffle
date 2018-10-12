@@ -1,12 +1,13 @@
 rootProject.name = "super-duper-sniffle"
 
 include(
-    "serialization",
-    "persistence",
-    "membership",
-    "datastore",
-    "common",
-    "persistence"
+        "serialization",
+        "persistence",
+        "communication",
+        "membership",
+        "datastore",
+        "common-api",
+        "io-services-api"
 )
 
 pluginManagement {
