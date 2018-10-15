@@ -7,13 +7,13 @@ import io.vavr.control.Either
 import java.net.InetAddress
 
 interface ConnectionService {
-    fun connect(inetAddress: InetAddress): Either<Connection, Error>
-    fun connect(inetAddress: InetAddress, port: Int): Either<Connection, Error>
-    fun connect(hostName: String, port: Int): Either<Connection, Error>
-    fun connect(port: Int): Either<Connection, Error>
+    fun connect(inetAddress: InetAddress): Connection
+    fun connect(inetAddress: InetAddress, port: Int): Connection
+    fun connect(hostName: String, port: Int): Connection
+    fun connect(port: Int): Connection
 
-    fun getReader(connection: Connection): Either<Reader, Error>
-    fun getWriter(connection: Connection): Either<Writer, Error>
+    fun getReader(connection: Connection): Reader
+    fun getWriter(connection: Connection): Writer
 
-    fun close(connection: Connection): Either<Boolean, Error>
+    fun close(connection: Connection): Boolean
 }
