@@ -30,21 +30,6 @@ abstract class RSocketServerConnectionServiceImpl : ServerConnectionService<RSoc
 
     }
 
-    private fun createRSocketServerConnection(
-        socketAcceptor: RSocketServerSocketAcceptor, transport: ServerTransport<out Closeable>
-    ): RSocketServerConnection {
-        RSocketFactory
-            .receive()
-            .acceptor(socketAcceptor)
-            .transport(transport)
-            .start().subscribe()
-        return RSocketServerConnection(socketAcceptor.rSocket)
-    }
-
-    protected abstract fun getServerTransport(port: Int): ServerTransport<out Closeable>
-    protected abstract fun getServerTransport(inetAddress: InetAddress, port: Int): ServerTransport<out Closeable>
-    protected abstract fun getServerTransport(hostName: String, port: Int): ServerTransport<out Closeable>
-
     override fun getReader(connection: Connection): Reader {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
@@ -58,5 +43,19 @@ abstract class RSocketServerConnectionServiceImpl : ServerConnectionService<RSoc
         return true
     }
 
+    private fun createRSocketServerConnection(
+        socketAcceptor: RSocketServerSocketAcceptor,
+        transport: ServerTransport<out Closeable>
+    ): RSocketServerConnection {
+        RSocketFactory
+            .receive()
+            .acceptor(socketAcceptor)
+            .transport(transport)
+            .start().subscribe()
+        return RSocketServerConnection(socketAcceptor.rSocket)
+    }
 
+    protected abstract fun getServerTransport(port: Int): ServerTransport<out Closeable>
+    protected abstract fun getServerTransport(inetAddress: InetAddress, port: Int): ServerTransport<out Closeable>
+    protected abstract fun getServerTransport(hostName: String, port: Int): ServerTransport<out Closeable>
 }
