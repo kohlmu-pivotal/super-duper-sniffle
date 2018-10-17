@@ -1,7 +1,8 @@
-package io.sniffle.communications.impl
+package io.sniffle.communications.services
 
 import io.rsocket.transport.ServerTransport
 import io.rsocket.transport.netty.server.TcpServerTransport
+import io.sniffle.communications.impl.RSocketServerConnectionServiceImpl
 import java.net.InetAddress
 import java.net.InetSocketAddress
 

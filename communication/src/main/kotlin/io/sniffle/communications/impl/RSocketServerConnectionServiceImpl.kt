@@ -2,37 +2,44 @@ package io.sniffle.communications.impl
 
 import io.rsocket.Closeable
 import io.rsocket.RSocketFactory
-import io.rsocket.SocketAcceptor
 import io.rsocket.transport.ServerTransport
 import io.sniffle.communications.ServerConnectionService
+import io.sniffle.communications.connections.RSocketServerConnection
+import io.sniffle.communications.sockets.RSocketServerSocketAcceptor
 import io.sniffle.io.Reader
 import io.sniffle.io.Writer
 import io.sniffle.io.connection.Connection
-import reactor.core.Disposable
 import java.net.InetAddress
 
-abstract class RSocketServerConnectionServiceImpl : ServerConnectionService<SocketAcceptor> {
-    private lateinit var disposable: Disposable
+abstract class RSocketServerConnectionServiceImpl : ServerConnectionService<RSocketServerSocketAcceptor> {
+    private lateinit var rSocketServerConnection: RSocketServerConnection
 
-    override fun connect(inetAddress: InetAddress, port: Int, socketAcceptor: SocketAcceptor): Connection {
-        disposable = createRSocketServerConnection(socketAcceptor, getServerTransport(inetAddress, port))
+    override fun connect(inetAddress: InetAddress, port: Int, socketAcceptor: RSocketServerSocketAcceptor): Connection {
+        rSocketServerConnection = createRSocketServerConnection(socketAcceptor, getServerTransport(inetAddress, port))
+        return rSocketServerConnection
     }
 
-    override fun connect(hostName: String, port: Int, socketAcceptor: SocketAcceptor): Connection {
-        disposable = createRSocketServerConnection(socketAcceptor, getServerTransport(hostName, port))
+    override fun connect(hostName: String, port: Int, socketAcceptor: RSocketServerSocketAcceptor): Connection {
+        rSocketServerConnection = createRSocketServerConnection(socketAcceptor, getServerTransport(hostName, port))
+        return rSocketServerConnection
     }
 
-    override fun connect(port: Int, socketAcceptor: SocketAcceptor): Connection {
-        disposable = createRSocketServerConnection(socketAcceptor, getServerTransport(port))
+    override fun connect(port: Int, socketAcceptor: RSocketServerSocketAcceptor): Connection {
+        rSocketServerConnection = createRSocketServerConnection(socketAcceptor, getServerTransport(port))
+        return rSocketServerConnection
 
     }
 
-    private fun createRSocketServerConnection(socketAcceptor: SocketAcceptor, transport: ServerTransport<out Closeable>) =
-            RSocketFactory
-                    .receive()
-                    .acceptor(socketAcceptor)
-                    .transport(transport)
-                    .start().subscribe()
+    private fun createRSocketServerConnection(
+        socketAcceptor: RSocketServerSocketAcceptor, transport: ServerTransport<out Closeable>
+    ): RSocketServerConnection {
+        RSocketFactory
+            .receive()
+            .acceptor(socketAcceptor)
+            .transport(transport)
+            .start().subscribe()
+        return RSocketServerConnection(socketAcceptor.rSocket)
+    }
 
     protected abstract fun getServerTransport(port: Int): ServerTransport<out Closeable>
     protected abstract fun getServerTransport(inetAddress: InetAddress, port: Int): ServerTransport<out Closeable>
@@ -47,7 +54,8 @@ abstract class RSocketServerConnectionServiceImpl : ServerConnectionService<Sock
     }
 
     override fun close(connection: Connection): Boolean {
-        disposable.dispose()
+        rSocketServerConnection.close()
+        return true
     }
 
 

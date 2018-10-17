@@ -5,33 +5,51 @@ import io.rsocket.RSocketFactory
 import io.rsocket.SocketAcceptor
 import io.rsocket.transport.ClientTransport
 import io.sniffle.communications.ClientConnectionService
+import io.sniffle.communications.connections.RSocketClientConnection
 import io.sniffle.io.Reader
 import io.sniffle.io.Writer
 import io.sniffle.io.connection.Connection
 import java.net.InetAddress
 
 abstract class RSocketClientConnectionServiceImpl : ClientConnectionService<SocketAcceptor> {
-    private lateinit var rsocket: RSocket
+    private lateinit var rsocketClientConnection: RSocketClientConnection
 
     override fun bind(inetAddress: InetAddress, port: Int, socketAcceptor: SocketAcceptor): Connection {
-        rsocket = createRSocket(getClientTransport(inetAddress, port))
+        rsocketClientConnection = RSocketClientConnection(
+            createRSocket(
+                getClientTransport(
+                    inetAddress,
+                    port
+                )
+            )
+        )
+        return rsocketClientConnection
     }
 
     override fun bind(hostName: String, port: Int, socketAcceptor: SocketAcceptor): Connection {
-        rsocket = createRSocket(getClientTransport(hostName, port))
+        rsocketClientConnection = RSocketClientConnection(
+            createRSocket(
+                getClientTransport(
+                    hostName,
+                    port
+                )
+            )
+        )
+        return rsocketClientConnection
     }
 
     override fun bind(port: Int, socketAcceptor: SocketAcceptor): Connection {
-        rsocket = createRSocket(getClientTransport(port))
-
+        rsocketClientConnection =
+                RSocketClientConnection(createRSocket(getClientTransport(port)))
+        return rsocketClientConnection
     }
 
     private fun createRSocket(transport: ClientTransport): RSocket =
-            RSocketFactory
-                    .connect()
-                    .transport(transport)
-                    .start()
-                    .block()!!
+        RSocketFactory
+            .connect()
+            .transport(transport)
+            .start()
+            .block()!!
 
     protected abstract fun getClientTransport(port: Int): ClientTransport
     protected abstract fun getClientTransport(inetAddress: InetAddress, port: Int): ClientTransport
@@ -46,6 +64,7 @@ abstract class RSocketClientConnectionServiceImpl : ClientConnectionService<Sock
     }
 
     override fun close(connection: Connection): Boolean {
-        rsocket.dispose()
+        rsocketClientConnection.close()
+        return true
     }
 }
